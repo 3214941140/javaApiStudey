@@ -8,35 +8,35 @@ import java.util.Objects;
  * 基础类：excel的数据
  */
 public class CasePojo {
-
+    // @Excel是easypoi中的注解
     @Excel(name="序号")
     private int caseId;
 
     @Excel(name="接口模块")
-    private int interfaceName;
+    private String interfaceName;
 
     @Excel(name="用例标题")
-    private int title;
+    private String title;
 
     @Excel(name="请求头")
-    private int header;
+    private String header;
 
     @Excel(name="请求方式")
-    private int method;
+    private String method;
 
     @Excel(name="接口地址")
-    private int url;
+    private String url;
 
     @Excel(name="参数输入")
-    private int parameter;
+    private String parameter;
 
     @Excel(name="期望结果")
-    private int expect;
+    private String expected;
 
     public CasePojo() {
     }
 
-    public CasePojo(int caseId, int interfaceName, int title, int header, int method, int url, int parameter, int expect) {
+    public CasePojo(int caseId, String interfaceName, String title, String header, String method, String url, String parameter, String expected) {
         this.caseId = caseId;
         this.interfaceName = interfaceName;
         this.title = title;
@@ -44,7 +44,7 @@ public class CasePojo {
         this.method = method;
         this.url = url;
         this.parameter = parameter;
-        this.expect = expect;
+        this.expected = expected;
     }
 
     public int getCaseId() {
@@ -55,60 +55,60 @@ public class CasePojo {
         this.caseId = caseId;
     }
 
-    public int getInterfaceName() {
+    public String getInterfaceName() {
         return interfaceName;
     }
 
-    public void setInterfaceName(int interfaceName) {
+    public void setInterfaceName(String interfaceName) {
         this.interfaceName = interfaceName;
     }
 
-    public int getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(int title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public int getHeader() {
+    public String getHeader() {
         return header;
     }
 
-    public void setHeader(int header) {
+    public void setHeader(String header) {
         this.header = header;
     }
 
-    public int getMethod() {
+    public String getMethod() {
         return method;
     }
 
-    public void setMethod(int method) {
+    public void setMethod(String method) {
         this.method = method;
     }
 
-    public int getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(int url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
-    public int getParameter() {
+    public String getParameter() {
         return parameter;
     }
 
-    public void setParameter(int parameter) {
+    public void setParameter(String parameter) {
         this.parameter = parameter;
     }
 
-    public int getExpect() {
-        return expect;
+    public String getExpected() {
+        return expected;
     }
 
-    public void setExpect(int expect) {
-        this.expect = expect;
+    public void setExpected(String expected) {
+        this.expected = expected;
     }
 
     @Override
@@ -121,7 +121,7 @@ public class CasePojo {
                 ", method=" + method +
                 ", url=" + url +
                 ", parameter=" + parameter +
-                ", expect=" + expect +
+                ", expected=" + expected +
                 '}';
     }
 
@@ -137,11 +137,11 @@ public class CasePojo {
                 method == casePojo.method &&
                 url == casePojo.url &&
                 parameter == casePojo.parameter &&
-                expect == casePojo.expect;
+                expected == casePojo.expected;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(caseId, interfaceName, title, header, method, url, parameter, expect);
+        return Objects.hash(caseId, interfaceName, title, header, method, url, parameter, expected);
     }
 }
