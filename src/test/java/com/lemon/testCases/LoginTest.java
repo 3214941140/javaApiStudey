@@ -1,14 +1,18 @@
 package com.lemon.testCases;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lemon.common.BaseTest;
+import com.lemon.data.Environment;
 import com.lemon.pojo.CasePojo;
 import com.lemon.utils.ExcelUtil;
 import io.restassured.response.Response;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /*
@@ -17,17 +21,26 @@ import java.util.List;
  */
 
 /**
- * 注册功能模块的测试类
+ * 登录功能模块的测试类
  */
 public class LoginTest extends BaseTest {
 
-    @BeforeTest
+    @BeforeClass
     public void before(){
         //只需要读取第一条数据
         List<CasePojo> datas = ExcelUtil.readExcelSpecifyDatas(2, 1, 1);
         // 注册一个用户
-        request(datas.get(0));
+        Response res = request(datas.get(0));
+        //获取响应数据中有用的值
+       /*
+        String mobilephone = res.jsonPath().get("data.mobile_phone");
+        //将手机号保存到环境变量中
+        Environment.envMap.put("mobile_phone",mobilephone);
+        */
+        extractToEnvironment(res,datas.get(0));
     }
+
+
 
     /**
      * 发起接口请求

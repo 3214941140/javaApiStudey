@@ -9,34 +9,37 @@ import java.util.Objects;
  */
 public class CasePojo {
     // @Excel是easypoi中的注解
-    @Excel(name="序号")
+    @Excel(name = "序号")
     private int caseId;
 
-    @Excel(name="接口模块")
+    @Excel(name = "接口模块")
     private String interfaceName;
 
-    @Excel(name="用例标题")
+    @Excel(name = "用例标题")
     private String title;
 
-    @Excel(name="请求头")
+    @Excel(name = "请求头")
     private String header;
 
-    @Excel(name="请求方式")
+    @Excel(name = "请求方式")
     private String method;
 
-    @Excel(name="接口地址")
+    @Excel(name = "接口地址")
     private String url;
 
-    @Excel(name="参数输入")
+    @Excel(name = "参数输入")
     private String parameter;
 
-    @Excel(name="期望结果")
+    @Excel(name = "期望结果")
     private String expected;
+
+    @Excel(name = "提取表达式")
+    private String extractExper;
 
     public CasePojo() {
     }
 
-    public CasePojo(int caseId, String interfaceName, String title, String header, String method, String url, String parameter, String expected) {
+    public CasePojo(int caseId, String interfaceName, String title, String header, String method, String url, String parameter, String expected, String extractExper) {
         this.caseId = caseId;
         this.interfaceName = interfaceName;
         this.title = title;
@@ -45,6 +48,7 @@ public class CasePojo {
         this.url = url;
         this.parameter = parameter;
         this.expected = expected;
+        this.extractExper = extractExper;
     }
 
     public int getCaseId() {
@@ -111,37 +115,26 @@ public class CasePojo {
         this.expected = expected;
     }
 
+    public String getExtractExper() {
+        return extractExper;
+    }
+
+    public void setExtractExper(String extractExper) {
+        this.extractExper = extractExper;
+    }
+
     @Override
     public String toString() {
         return "CasePojo{" +
                 "caseId=" + caseId +
-                ", interfaceName=" + interfaceName +
-                ", title=" + title +
-                ", header=" + header +
-                ", method=" + method +
-                ", url=" + url +
-                ", parameter=" + parameter +
-                ", expected=" + expected +
+                ", interfaceName='" + interfaceName + '\'' +
+                ", title='" + title + '\'' +
+                ", header='" + header + '\'' +
+                ", method='" + method + '\'' +
+                ", url='" + url + '\'' +
+                ", parameter='" + parameter + '\'' +
+                ", expected='" + expected + '\'' +
+                ", extractExper='" + extractExper + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CasePojo casePojo = (CasePojo) o;
-        return caseId == casePojo.caseId &&
-                interfaceName == casePojo.interfaceName &&
-                title == casePojo.title &&
-                header == casePojo.header &&
-                method == casePojo.method &&
-                url == casePojo.url &&
-                parameter == casePojo.parameter &&
-                expected == casePojo.expected;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(caseId, interfaceName, title, header, method, url, parameter, expected);
     }
 }

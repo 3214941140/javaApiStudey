@@ -1,6 +1,7 @@
 package com.lemon.common;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lemon.data.Environment;
 import com.lemon.pojo.CasePojo;
 import com.lemon.utils.Constants;
 import io.restassured.RestAssured;
@@ -62,6 +63,7 @@ public class BaseTest {
         return res;
     }
 
+
     /**
      * 响应断言
      * @param cp  请求数据（实体类）
@@ -87,6 +89,26 @@ public class BaseTest {
             System.out.println("期望结果：" + expectedResult);
             System.out.println("期望结果类型：" + expectedResult.getClass());
             Assert.assertEquals(actualResult, expectedResult);
+        }
+    }
+
+    /**
+     * 通过提取表达式将对应的响应值保存到环境变量中
+     * @param res 接口响应信息
+     * @param cp 实体类对象
+     */
+    public void extractToEnvironment(Response res , CasePojo cp){
+        String extractStr = cp.getExtractExper();
+        // 把提取表达式转成Map
+        Map<String , Object> map = JSONObject.parseObject(extractStr);
+        Set<String> allKeys = map.keySet();
+        for (String key : allKeys) {
+            // key：变量名，value:为提取的Gpath表达式
+            Object value = map.get(key);
+            // value为Object类型，jsonPath().get()方法里填的是String类型，所以必须向下转型
+            Object actualValue = res.jsonPath().get((String) value);
+            //将对应的键和值保存到环境变量中
+            Environment.envMap.put(key,actualValue);
         }
     }
 }
