@@ -113,6 +113,10 @@ public class DataDrivenTest {
         //3、通过easy poi读取excel的数据，将excel每一行数据映射成实体对象
         // 设置sheet（通过索引来设置）
         ip.setStartSheetIndex(0);
+        //设置读取开始行
+        ip.setStartRows(0);
+        //设置读取的行数
+        ip.setReadRows(1);
         // 用list来接收读取的数据（easy poi）
         List<CasePojo> listData  = ExcelImportUtil.importExcel(file,CasePojo.class,ip);
         return listData;
