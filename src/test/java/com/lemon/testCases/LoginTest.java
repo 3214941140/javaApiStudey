@@ -11,8 +11,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 
 /*
@@ -48,6 +46,7 @@ public class LoginTest extends BaseTest {
      */
     @Test(dataProvider = "getLoginDatas")
     public void login(CasePojo cp) {    // 形参为数据源中的一维数组里数据的数据类型
+        cp = paramsReplace(cp);
         //发起接口请求
         Response res = request(cp);
         //断言
