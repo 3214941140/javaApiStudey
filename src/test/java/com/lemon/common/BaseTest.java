@@ -155,6 +155,7 @@ public class BaseTest {
     /**
      * 整条用例数据的参数化替换，只要在对应的用例数据里有{{xxx}}，那么就会从环境变中找到xxx，如果找到的话就去替换，否则不会
      * @param cp 实体类对象
+     * @return cp 具体参数
      */
     public CasePojo paramsReplace(CasePojo cp){
         //1、请求头

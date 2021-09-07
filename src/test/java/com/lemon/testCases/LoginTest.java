@@ -46,6 +46,7 @@ public class LoginTest extends BaseTest {
      */
     @Test(dataProvider = "getLoginDatas")
     public void login(CasePojo cp) {    // 形参为数据源中的一维数组里数据的数据类型
+        //替换参数
         cp = paramsReplace(cp);
         //发起接口请求
         Response res = request(cp);
