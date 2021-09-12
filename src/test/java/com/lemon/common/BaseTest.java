@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -172,5 +173,26 @@ public class BaseTest {
         String expected = cp.getExpected();
         cp.setExpected(regexReplace(expected));
         return cp;
+    }
+
+    /**
+     * 获取前置条件中每条数据，响应数据中有用的值
+     * @param listData 前置条件的集合
+     * @return listData
+     */
+    public List<CasePojo> precondition(List<CasePojo> listData){
+        //获取前置条件中每条数据
+        for (int i = 0; i < listData.size(); i++) {
+            //发起请求
+            CasePojo cp = listData.get(i);
+            //替换参数
+            cp = paramsReplace(cp);
+            Response res = request(cp);
+            //判断是否要提取响应数据,获取响应数据中有用的值
+            if (cp.getExtractExper() != null) {
+                extractToEnvironment(res,cp);
+            }
+        }
+        return listData;
     }
 }

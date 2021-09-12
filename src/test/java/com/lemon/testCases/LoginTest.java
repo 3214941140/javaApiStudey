@@ -5,6 +5,7 @@ import com.lemon.common.BaseTest;
 import com.lemon.data.Environment;
 import com.lemon.pojo.CasePojo;
 import com.lemon.utils.ExcelUtil;
+import com.lemon.utils.PhoneRandomUtil;
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -25,17 +26,25 @@ public class LoginTest extends BaseTest {
 
     @BeforeClass
     public void before(){
+        //生成一个没有被使用过的手机号
+        String phone = PhoneRandomUtil.getUnregisterPhone();
+        //将该手机号存入到环境变量中，注意：这里的随机手机号的变量名与用例中的手机号的变量名保持一致，不然会报错
+        Environment.envMap.put("phone",phone);
+
         //只需要读取第一条数据
         List<CasePojo> datas = ExcelUtil.readExcelSpecifyDatas(2, 1, 1);
-        // 注册一个用户
-        Response res = request(datas.get(0));
+        CasePojo cp = datas.get(0);
+        //将环境变量中的手机号替换到用例中
+        cp = paramsReplace(cp);
+        // 发起【注册】请求
+        Response res = request(cp);
         //获取响应数据中有用的值
        /*
         String mobilephone = res.jsonPath().get("data.mobile_phone");
         //将手机号保存到环境变量中
         Environment.envMap.put("mobile_phone",mobilephone);
         */
-        extractToEnvironment(res,datas.get(0));
+        extractToEnvironment(res,cp);
     }
 
 

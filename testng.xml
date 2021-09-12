@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="柠檬班接口测试学习">
+    <test name="test">
+        <classes>
+            <class name="com.lemon.testCases.RegisterTest"></class>
+            <class name="com.lemon.testCases.LoginTest"></class>
+            <class name="com.lemon.testCases.RechargeTest"></class>
+            <class name="com.lemon.testCases.InvestFlowTest"></class>
+        </classes>
+    </test>
+</suite>
