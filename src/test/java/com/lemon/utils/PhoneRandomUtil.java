@@ -14,9 +14,12 @@ public class PhoneRandomUtil {
         //nextInt：随机生成一个整数，如果输入一个10，生成的随机数就是0-9。
         String phonePrefix = "155";
         //生成八位的随机整数
-        int num = ran.nextInt(100000000 + 1);
-        String phone = phonePrefix + num;
-        return phone;
+        // int num = ran.nextInt(100000000 + 1);  //经常生成不是8位数的数
+        for (int i = 0; i < 8; i++) {
+            int num = ran.nextInt(10);
+            phonePrefix = phonePrefix + num;
+        }
+        return phonePrefix;
     }
 
     public static String getUnregisterPhone(){

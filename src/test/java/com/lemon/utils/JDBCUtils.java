@@ -22,17 +22,123 @@ public class JDBCUtils {
         //Oracle：jdbc:oracle:thin:@localhost:1521:DBName
          //SqlServer：jdbc:microsoft:sqlserver://localhost:1433; DatabaseName=DBName
         //MySql：jdbc:mysql://localhost:3306/DBName
-        String url="jdbc:mysql://api.lemonban.com/futureloan?useUnicode=true&characterEncoding=utf-8";
-        String user="future";
-        String password="123456";
         //定义数据库连接对象
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection(url, user,password);
+            conn = DriverManager.getConnection(Constants.DB_BASE_URL, Constants.DB_USERNAME,Constants.DB_PWD);
         }catch (Exception e) {
             e.printStackTrace();
         }
         return conn;
+    }
+
+
+    /**
+     * 关闭数据库连接
+     * @param conn 数据库连接对象
+     */
+    public static void closeConnection(Connection conn){
+        //判空
+        if(null != conn){
+            //关闭资源
+            try {
+                conn.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * sql的更新操作（增删改）
+     * @param sql 要执行的sql语句
+     */
+    public static void update(String sql){
+        //1、建立数据库连接
+        Connection conn = getConnection();
+        //2、实例化数据库操作对象
+        QueryRunner qr = new QueryRunner();
+        try {
+
+            qr.update(conn,sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            //关闭资源
+            closeConnection(conn);
+        }
+    }
+
+    /**
+     * 查询所有的结果集
+     * @param sql 要执行的sql语句
+     * @return 返回的结果集
+     */
+    public static List<Map<String, Object>> queryAll(String sql){
+        //1、建立数据库连接
+        Connection conn = getConnection();
+        //2、实例化数据库操作对象
+        QueryRunner qr = new QueryRunner();
+        List<Map<String, Object>> result = null;
+        try {
+            //查询要有返回结果
+            result = qr.query(conn, sql, new MapListHandler());
+            System.out.println(result);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            //关闭资源
+            closeConnection(conn);
+        }
+        return result;
+    }
+
+    /**
+     * 查询结果集中的第一条
+     * @param sql 要执行的sql语句
+     * @return 返回的结果集
+     */
+    public static Map<String, Object> queryOne(String sql){
+        //1、建立数据库连接
+        Connection conn = getConnection();
+        //2、实例化数据库操作对象
+        QueryRunner qr = new QueryRunner();
+        Map<String, Object> result = null;
+        try {
+            //查询要有返回结果
+            result = qr.query(conn, sql, new MapHandler());
+            System.out.println(result);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            //关闭资源
+            closeConnection(conn);
+        }
+        return result;
+    }
+
+    /**
+     * 查询单条的数据
+     * @param sql 要执行的sql语句
+     * @return 返回的结果集
+     */
+    public static Object querySingleData(String sql){
+        //1、建立数据库连接
+        Connection conn = getConnection();
+        //2、实例化数据库操作对象
+        QueryRunner qr = new QueryRunner();
+        Object result = null;
+        try {
+            //查询要有返回结果
+            result = qr.query(conn, sql, new ScalarHandler<>());
+            System.out.println(result);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }finally {
+            //关闭资源
+            closeConnection(conn);
+        }
+        return result;
     }
 
     public static void main(String[] args) {
@@ -87,116 +193,9 @@ public class JDBCUtils {
             System.out.println(result);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-        //关闭资源
-        try {
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        }finally {
+            closeConnection(conn);
         }
     }
 
-    /**
-     * sql的更新操作（增删改）
-     * @param sql 要执行的sql语句
-     */
-    public static void update(String sql){
-        //1、建立数据库连接
-        Connection conn = getConnection();
-        //2、实例化数据库操作对象
-        QueryRunner qr = new QueryRunner();
-        try {
-
-            qr.update(conn,sql);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        //关闭资源
-        try {
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    /**
-     * 查询所有的结果集
-     * @param sql 要执行的sql语句
-     * @return 返回的结果集
-     */
-    public static List<Map<String, Object>> queryAll(String sql){
-        //1、建立数据库连接
-        Connection conn = getConnection();
-        //2、实例化数据库操作对象
-        QueryRunner qr = new QueryRunner();
-        List<Map<String, Object>> result = null;
-        try {
-            //查询要有返回结果
-            result = qr.query(conn, sql, new MapListHandler());
-            System.out.println(result);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        //关闭资源
-        try {
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
-     * 查询结果集中的第一条
-     * @param sql 要执行的sql语句
-     * @return 返回的结果集
-     */
-    public static Map<String, Object> queryOne(String sql){
-        //1、建立数据库连接
-        Connection conn = getConnection();
-        //2、实例化数据库操作对象
-        QueryRunner qr = new QueryRunner();
-        Map<String, Object> result = null;
-        try {
-            //查询要有返回结果
-            result = qr.query(conn, sql, new MapHandler());
-            System.out.println(result);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        //关闭资源
-        try {
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
-     * 查询单条的数据
-     * @param sql 要执行的sql语句
-     * @return 返回的结果集
-     */
-    public static Object querySingleData(String sql){
-        //1、建立数据库连接
-        Connection conn = getConnection();
-        //2、实例化数据库操作对象
-        QueryRunner qr = new QueryRunner();
-        Object result = null;
-        try {
-            //查询要有返回结果
-            result = qr.query(conn, sql, new ScalarHandler<>());
-            System.out.println(result);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        //关闭资源
-        try {
-            conn.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return result;
-    }
 }
