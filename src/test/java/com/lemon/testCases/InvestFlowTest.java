@@ -1,16 +1,21 @@
 package com.lemon.testCases;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lemon.common.BaseTest;
 import com.lemon.data.Environment;
 import com.lemon.pojo.CasePojo;
 import com.lemon.utils.ExcelUtil;
+import com.lemon.utils.JDBCUtils;
 import com.lemon.utils.PhoneRandomUtil;
 import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class InvestFlowTest extends BaseTest {
 
@@ -46,6 +51,26 @@ public class InvestFlowTest extends BaseTest {
 
         // 断言
         assertResponse(cp,res);
+
+        //数据库断言
+        String dbAssert = cp.getDbAssert();
+        if(dbAssert != null) {
+            // 转成map
+            Map<String, Object> map = JSONObject.parseObject(dbAssert);
+            // 遍历map，进行断言
+            Set<String> keys = map.keySet();
+            for (String key : keys) {
+                //key 就是执行的sql语句
+                // value就是数据库断言的期望值
+                // 获取期望结果
+                Integer expectedValue = (Integer) map.get(key);
+                long ev = expectedValue.longValue();
+                // 获取实际的响应结果
+                Object actualValue = JDBCUtils.querySingleData(key);
+                //断言
+                Assert.assertEquals(actualValue, ev);
+            }
+        }
     }
 
     /**

@@ -17,7 +17,7 @@ public class JDBCUtils {
      * 和数据库建立连接
      * @return conn 数据库连接对象
      */
-    public static Connection getConnection() {
+    public static Connection getConn() {
         //定义数据库连接
         //Oracle：jdbc:oracle:thin:@localhost:1521:DBName
          //SqlServer：jdbc:microsoft:sqlserver://localhost:1433; DatabaseName=DBName
@@ -55,7 +55,7 @@ public class JDBCUtils {
      */
     public static void update(String sql){
         //1、建立数据库连接
-        Connection conn = getConnection();
+        Connection conn = getConn();
         //2、实例化数据库操作对象
         QueryRunner qr = new QueryRunner();
         try {
@@ -76,7 +76,7 @@ public class JDBCUtils {
      */
     public static List<Map<String, Object>> queryAll(String sql){
         //1、建立数据库连接
-        Connection conn = getConnection();
+        Connection conn = getConn();
         //2、实例化数据库操作对象
         QueryRunner qr = new QueryRunner();
         List<Map<String, Object>> result = null;
@@ -100,7 +100,7 @@ public class JDBCUtils {
      */
     public static Map<String, Object> queryOne(String sql){
         //1、建立数据库连接
-        Connection conn = getConnection();
+        Connection conn = getConn();
         //2、实例化数据库操作对象
         QueryRunner qr = new QueryRunner();
         Map<String, Object> result = null;
@@ -124,7 +124,7 @@ public class JDBCUtils {
      */
     public static Object querySingleData(String sql){
         //1、建立数据库连接
-        Connection conn = getConnection();
+        Connection conn = getConn();
         //2、实例化数据库操作对象
         QueryRunner qr = new QueryRunner();
         Object result = null;
@@ -143,7 +143,7 @@ public class JDBCUtils {
 
     public static void main(String[] args) {
         //1、建立数据库连接
-        Connection conn = getConnection();
+        Connection conn = getConn();
         //2、实例化数据库操作对象
         QueryRunner qr = new QueryRunner();
       /*
@@ -189,7 +189,7 @@ public class JDBCUtils {
         String sql = "select count(*) from member where id < 10;";
         try {
             //查询要有返回结果
-            Object result = qr.query(conn, sql, new ScalarHandler<Object>());
+            Object result = qr.query(conn, sql, new ScalarHandler<>());
             System.out.println(result);
         } catch (SQLException throwables) {
             throwables.printStackTrace();

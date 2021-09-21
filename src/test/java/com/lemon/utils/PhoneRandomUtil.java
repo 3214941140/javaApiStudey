@@ -1,5 +1,8 @@
 package com.lemon.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class PhoneRandomUtil {
@@ -9,6 +12,10 @@ public class PhoneRandomUtil {
         getUnregisterPhone();
     }
 
+    /**
+     * 通过随机数形成随机的手机号
+     * @return phonePrefix 随机手机号
+     */
     public static String getRandomPhone(){
         Random ran = new Random();
         //nextInt：随机生成一个整数，如果输入一个10，生成的随机数就是0-9。
@@ -21,6 +28,23 @@ public class PhoneRandomUtil {
         }
         return phonePrefix;
     }
+
+    /**
+     * 通过时间戳生成随机的手机号
+     * @return phonePrefix 随机手机号
+     */
+//    public static String getRandomPhone(){
+//        //获取当前时间戳
+//        Date date = new Date();
+//        long timestamp = date.getTime();
+//        //设置格式
+//        SimpleDateFormat sf =  new SimpleDateFormat("yyyyMMddHHmmss");
+//        //获得带格式的字符串
+//        String timeText = sf.format(timestamp).substring(3,11);
+//        //获得时间戳
+//        String phonePrefix = "155" + timeText;
+//        return phonePrefix;
+//    }
 
     public static String getUnregisterPhone(){
         String phone = "";

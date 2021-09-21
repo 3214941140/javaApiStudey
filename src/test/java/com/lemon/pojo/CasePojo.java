@@ -36,10 +36,13 @@ public class CasePojo {
     @Excel(name = "提取表达式")
     private String extractExper;
 
+    @Excel(name="数据库断言")
+    private String dbAssert;
+
     public CasePojo() {
     }
 
-    public CasePojo(int caseId, String interfaceName, String title, String header, String method, String url, String parameter, String expected, String extractExper) {
+    public CasePojo(int caseId, String interfaceName, String title, String header, String method, String url, String parameter, String expected, String extractExper, String dbAssert) {
         this.caseId = caseId;
         this.interfaceName = interfaceName;
         this.title = title;
@@ -49,6 +52,7 @@ public class CasePojo {
         this.parameter = parameter;
         this.expected = expected;
         this.extractExper = extractExper;
+        this.dbAssert = dbAssert;
     }
 
     public int getCaseId() {
@@ -123,6 +127,14 @@ public class CasePojo {
         this.extractExper = extractExper;
     }
 
+    public String getDbAssert() {
+        return dbAssert;
+    }
+
+    public void setDbAssert(String dbAssert) {
+        this.dbAssert = dbAssert;
+    }
+
     @Override
     public String toString() {
         return "CasePojo{" +
@@ -135,6 +147,7 @@ public class CasePojo {
                 ", parameter='" + parameter + '\'' +
                 ", expected='" + expected + '\'' +
                 ", extractExper='" + extractExper + '\'' +
+                ", dbAssert='" + dbAssert + '\'' +
                 '}';
     }
 }

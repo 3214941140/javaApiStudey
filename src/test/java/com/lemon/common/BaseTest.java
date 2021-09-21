@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lemon.data.Environment;
 import com.lemon.pojo.CasePojo;
 import com.lemon.utils.Constants;
+import com.lemon.utils.JDBCUtils;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.testng.Assert;
@@ -91,7 +92,32 @@ public class BaseTest {
                 Object expectedResult = expectedMap.get(key);
                 System.out.println("期望结果：" + expectedResult);
                 System.out.println("期望结果类型：" + expectedResult.getClass());
+                //断言
                 Assert.assertEquals(actualResult, expectedResult);
+            }
+        }
+    }
+
+    /**
+     * 数据库断言
+     * @param cp 请求数据（实体类）
+     */
+    public void dbAssert(CasePojo cp){
+        String dbAssert = cp.getDbAssert();
+        if(dbAssert != null) {
+            // 转成map
+            Map<String, Object> map = JSONObject.parseObject(dbAssert);
+            // 遍历map，进行断言
+            Set<String> keys = map.keySet();
+            for (String key : keys) {
+                //key 就是执行的sql语句
+                // value就是数据库断言的期望值
+                // 获取期望结果
+                Object expectedValue = map.get(key);
+                // 获取实际的响应结果
+                Object actualValue = JDBCUtils.querySingleData(key);
+                //断言
+                Assert.assertEquals(actualValue, expectedValue);
             }
         }
     }
@@ -172,6 +198,9 @@ public class BaseTest {
         //4、期望结果
         String expected = cp.getExpected();
         cp.setExpected(regexReplace(expected));
+        //5、数据库断言
+        String dbAssert = cp.getDbAssert();
+        cp.setDbAssert(regexReplace(dbAssert));
         return cp;
     }
 
